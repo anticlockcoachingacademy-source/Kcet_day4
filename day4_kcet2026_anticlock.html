@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Day 4 – Anticlock Coaching Academy | KCET 2026</title>
+<style>
+  :root {
+    --navy: #0d1b2e;
+    --navy2: #142035;
+    --navy3: #1a2a45;
+    --gold: #f5a623;
+    --gold2: #ffc14d;
+    --gold-dim: #c47f0a;
+    --white: #ffffff;
+    --off-white: #e8edf5;
+    --muted: #8899bb;
+    --phy: #3b82f6;
+    --phy-bg: #1e3a5f;
+    --phy-light: #dbeafe;
+    --chem: #10b981;
+    --chem-bg: #0d3b2e;
+    --chem-light: #d1fae5;
+    --math: #8b5cf6;
+    --math-bg: #2e1a4a;
+    --math-light: #ede9fe;
+    --must: #ef4444;
+    --imp: #f97316;
+    --med: #3b82f6;
+    --card-bg: #162033;
+    --border: #1f2f4a;
+    --success: #22c55e;
+    --row-alt: #111c30;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Segoe UI', -apple-system, sans-serif;
+    background: var(--navy);
+    color: var(--off-white);
+    min-height: 100vh;
+    font-size: 14px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #0a1628 0%, #142035 50%, #0d1b2e 100%);
+    border-bottom: 2px solid var(--gold);
+    padding: 14px 16px 0;
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .logo {
+    width: 44px; height: 44px;
+    background: var(--gold);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 16px; color: var(--navy);
+    flex-shrink: 0;
+  }
+  .academy-name { font-size: 17px; font-weight: 700; color: var(--white); }
+  .academy-sub { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 1px; }
+
+  .stats-row {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 8px; margin-bottom: 10px;
+  }
+  .stat-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+  }
+  .stat-val { font-size: 20px; font-weight: 800; color: var(--gold); }
+  .stat-lbl { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+  .exam-date { text-align: center; font-size: 18px; font-weight: 700; color: var(--gold); margin: 4px 0 8px; }
+
+  .day-banner {
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    border-bottom: none;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab:hover:not(.active) { color: var(--off-white); }
+
+  /* ── PANELS ── */
+  .panel { display: none; padding: 14px; animation: fadeIn 0.3s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn { from{opacity:0; transform:translateY(4px)} to{opacity:1; transform:translateY(0)} }
+
+  /* ── SCHEDULE ── */
+  .mission-card {
+    background: linear-gradient(135deg, #1a2f52, #162040);
+    border: 1px solid #2a4070;
+    border-left: 4px solid var(--gold);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+  .mission-title { font-size: 15px; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
+  .mission-text { font-size: 12px; color: #b0c4de; line-height: 1.6; }
+
+  .subject-cards {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 8px; margin-bottom: 16px;
+  }
+  .subj-card {
+    border-radius: 10px;
+    padding: 12px 10px;
+    border: 1px solid transparent;
+  }
+  .subj-card.phy { background: var(--phy-bg); border-color: var(--phy); }
+  .subj-card.chem { background: var(--chem-bg); border-color: var(--chem); }
+  .subj-card.math { background: var(--math-bg); border-color: var(--math); }
+  .subj-icon { font-size: 16px; margin-bottom: 4px; }
+  .subj-label { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+  .subj-card.phy .subj-label { color: var(--phy); }
+  .subj-card.chem .subj-label { color: var(--chem); }
+  .subj-card.math .subj-label { color: var(--math); }
+  .subj-name { font-size: 12px; font-weight: 700; color: var(--white); line-height: 1.3; margin-bottom: 5px; }
+  .marks-badge {
+    display: inline-block;
+    font-size: 9px; font-weight: 700;
+    padding: 2px 6px; border-radius: 20px;
+    margin-bottom: 5px;
+  }
+  .phy .marks-badge { background: rgba(59,130,246,0.25); color: #93c5fd; }
+  .chem .marks-badge { background: rgba(16,185,129,0.25); color: #6ee7b7; }
+  .math .marks-badge { background: rgba(139,92,246,0.25); color: #c4b5fd; }
+  .subj-time { font-size: 10px; color: var(--muted); }
+  .subj-extra { font-size: 9px; color: var(--muted); margin-top: 2px; }
+
+  .section-title {
+    font-size: 13px; font-weight: 700; color: var(--white);
+    display: flex; align-items: center; gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  /* ── TIMETABLE ── */
+  .timetable { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+  .tt-header {
+    display: grid; grid-template-columns: 80px 1fr 70px 55px 50px;
+    background: var(--navy3); padding: 8px 10px;
+    font-size: 9px; font-weight: 700; color: var(--gold);
+    text-transform: uppercase; letter-spacing: 0.8px; gap: 6px;
+  }
+  .tt-row {
+    display: grid; grid-template-columns: 80px 1fr 70px 55px 50px;
+    padding: 9px 10px; gap: 6px;
+    border-top: 1px solid var(--border);
+    align-items: center;
+    transition: background 0.15s;
+  }
+  .tt-row:nth-child(even) { background: var(--row-alt); }
+  .tt-row.break-row { opacity: 0.6; }
+  .tt-row:hover { background: rgba(245,166,35,0.05); }
+  .tt-time { font-size: 10px; color: var(--gold); font-weight: 600; }
+  .tt-activity { font-size: 11px; color: var(--off-white); font-weight: 600; }
+  .tt-sub-text { font-size: 9px; color: var(--muted); margin-top: 2px; }
+  .tt-subject { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 12px; text-align: center; }
+  .tt-subject.phy { background: rgba(59,130,246,0.2); color: #93c5fd; }
+  .tt-subject.chem { background: rgba(16,185,129,0.2); color: #6ee7b7; }
+  .tt-subject.math { background: rgba(139,92,246,0.2); color: #c4b5fd; }
+  .tt-subject.all { background: rgba(245,166,35,0.2); color: var(--gold); }
+  .tt-subject.brk { background: rgba(100,100,120,0.2); color: #aaa; }
+  .tt-subject.mock { background: rgba(239,68,68,0.2); color: #fca5a5; }
+  .tt-subject.rev { background: rgba(34,197,94,0.2); color: #86efac; }
+  .tt-dur { font-size: 10px; color: var(--off-white); }
+  .tt-pri { font-size: 9px; font-weight: 700; }
+  .tt-pri.high { color: #ef4444; }
+  .tt-pri.must { color: #f97316; }
+  .tt-pri.med { color: #eab308; }
+
+  /* ── SUMMARY BAR ── */
+  .summary-bar {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 6px; margin-top: 12px;
+  }
+  .sum-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 6px; text-align: center;
+  }
+  .sum-icon { font-size: 13px; }
+  .sum-val { font-size: 10px; font-weight: 700; color: var(--gold); margin-top: 2px; }
+  .sum-lbl { font-size: 9px; color: var(--muted); }
+
+  /* ── TOPICS ── */
+  .topics-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-bottom: 12px;
+  }
+  .topic-section {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .topic-section.full-width { grid-column: 1 / -1; }
+  .topic-header {
+    padding: 10px 12px;
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .topic-header.phy { background: var(--phy-bg); color: #93c5fd; }
+  .topic-header.chem { background: var(--chem-bg); color: #6ee7b7; }
+  .topic-header.math { background: var(--math-bg); color: #c4b5fd; }
+  .topic-marks {
+    margin-left: auto; font-size: 9px;
+    padding: 2px 6px; border-radius: 10px; font-weight: 700;
+  }
+  .phy .topic-marks { background: rgba(59,130,246,0.25); color: #93c5fd; }
+  .chem .topic-marks { background: rgba(16,185,129,0.25); color: #6ee7b7; }
+  .math .topic-marks { background: rgba(139,92,246,0.25); color: #c4b5fd; }
+
+  .topic-item {
+    padding: 9px 12px;
+    border-top: 1px solid var(--border);
+    background: var(--card-bg);
+  }
+  .topic-item:hover { background: rgba(255,255,255,0.02); }
+  .topic-row { display: flex; align-items: flex-start; gap: 8px; }
+  .badge {
+    font-size: 8px; font-weight: 800;
+    padding: 2px 5px; border-radius: 4px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .badge.must { background: rgba(239,68,68,0.2); color: #ef4444; border: 1px solid rgba(239,68,68,0.4); }
+  .badge.imp { background: rgba(249,115,22,0.2); color: #f97316; border: 1px solid rgba(249,115,22,0.4); }
+  .badge.med { background: rgba(59,130,246,0.2); color: #60a5fa; border: 1px solid rgba(59,130,246,0.4); }
+  .topic-name { font-size: 11px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .topic-desc { font-size: 10px; color: var(--muted); line-height: 1.4; }
+
+  /* Cheat codes box */
+  .cheat-box {
+    background: linear-gradient(135deg, #1a2f1a, #162814);
+    border: 1px solid #2a6a3a;
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 4px;
+  }
+  .cheat-title { font-size: 13px; font-weight: 700; color: #f5a623; margin-bottom: 10px; }
+  .cheat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .cheat-col-title { font-size: 10px; font-weight: 700; margin-bottom: 6px; }
+  .cheat-col-title.phy { color: #93c5fd; }
+  .cheat-col-title.chem { color: #6ee7b7; }
+  .cheat-col-title.math { color: #c4b5fd; }
+  .cheat-item { font-size: 10px; color: var(--muted); margin-bottom: 6px; line-height: 1.4; }
+  .cheat-item strong { color: var(--off-white); }
+
+  /* ── FORMULAS ── */
+  .formula-section { margin-bottom: 14px; }
+  .formula-header {
+    padding: 10px 12px;
+    border-radius: 10px 10px 0 0;
+    font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .formula-header.phy { background: var(--phy-bg); color: #93c5fd; border: 1px solid var(--phy); }
+  .formula-header.chem { background: var(--chem-bg); color: #6ee7b7; border: 1px solid var(--chem); }
+  .formula-header.math { background: var(--math-bg); color: #c4b5fd; border: 1px solid var(--math); }
+
+  .formula-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-top: none;
+    border-radius: 0 0 10px 10px; overflow: hidden;
+  }
+  .formula-card {
+    background: var(--card-bg);
+    padding: 10px 12px;
+  }
+  .formula-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+  .f-label { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px; }
+  .phy .f-label { color: var(--phy); }
+  .chem .f-label { color: var(--chem); }
+  .math .f-label { color: var(--math); }
+  .f-formula { font-size: 12px; font-weight: 700; color: var(--white); margin-bottom: 3px; font-family: 'Courier New', monospace; }
+  .f-note { font-size: 9px; color: var(--muted); line-height: 1.3; }
+
+  /* ── MOCK TEST ── */
+  .mock-header {
+    background: linear-gradient(135deg, #1a2f52, #1e3a5f);
+    border: 1px solid #2a5090;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 14px;
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .mock-info { flex: 1; }
+  .mock-title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .mock-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+  .mock-count {
+    background: var(--phy);
+    border-radius: 8px;
+    padding: 10px 14px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .mock-num { font-size: 22px; font-weight: 900; color: white; }
+  .mock-lbl { font-size: 9px; color: rgba(255,255,255,0.8); font-weight: 600; text-transform: uppercase; }
+
+  .subject-selector {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 8px; margin-bottom: 14px;
+  }
+  .sel-btn {
+    background: var(--card-bg);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .sel-btn:hover { border-color: var(--gold); }
+  .sel-btn.selected.phy { background: rgba(59,130,246,0.15); border-color: var(--phy); }
+  .sel-btn.selected.chem { background: rgba(16,185,129,0.15); border-color: var(--chem); }
+  .sel-btn.selected.math { background: rgba(139,92,246,0.15); border-color: var(--math); }
+  .sel-icon { font-size: 18px; margin-bottom: 4px; }
+  .sel-name { font-size: 12px; font-weight: 600; color: var(--white); }
+  .sel-count { font-size: 10px; color: var(--muted); }
+
+  .question-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .q-meta {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 10px;
+  }
+  .pyq-badge {
+    background: rgba(245,166,35,0.2);
+    color: var(--gold);
+    font-size: 9px; font-weight: 700;
+    padding: 2px 7px; border-radius: 10px;
+    border: 1px solid rgba(245,166,35,0.4);
+  }
+  .q-num { font-size: 11px; color: var(--muted); }
+  .q-score { font-size: 11px; color: var(--gold); margin-left: auto; }
+  .q-text { font-size: 13px; color: var(--white); font-weight: 500; margin-bottom: 12px; line-height: 1.5; }
+  .options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+  .opt-btn {
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--off-white);
+    transition: all 0.2s;
+    width: 100%;
+  }
+  .opt-btn:hover { background: rgba(245,166,35,0.08); border-color: rgba(245,166,35,0.4); }
+  .opt-btn.correct { background: rgba(34,197,94,0.15); border-color: #22c55e; color: #86efac; }
+  .opt-btn.wrong { background: rgba(239,68,68,0.15); border-color: #ef4444; color: #fca5a5; }
+  .q-actions {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 8px;
+  }
+  .score-display { font-size: 12px; background: rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 20px; color: var(--gold); }
+  .btn-group { display: flex; gap: 8px; }
+  .skip-btn, .next-btn {
+    padding: 8px 18px; border-radius: 8px;
+    font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s;
+  }
+  .skip-btn { background: rgba(255,255,255,0.08); color: var(--off-white); }
+  .next-btn { background: var(--gold); color: var(--navy); }
+  .next-btn:hover { background: var(--gold2); }
+
+  /* ── TRACKER ── */
+  .tracker-stats {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 6px; margin-bottom: 14px;
+  }
+  .t-stat {
+    background: var(--navy3);
+    border-radius: 8px; padding: 10px 6px; text-align: center;
+  }
+  .t-stat-val { font-size: 18px; font-weight: 800; color: var(--gold); }
+  .t-stat-lbl { font-size: 8px; color: var(--muted); text-transform: uppercase; }
+
+  .progress-bar-wrap { background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; margin: 6px 0; }
+  .progress-bar { height: 100%; border-radius: 4px; background: var(--gold); transition: width 0.5s ease; width: 0%; }
+  .pct-label { font-size: 9px; color: var(--muted); text-align: right; }
+
+  .tracker-section {
+    border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+  }
+  .tracker-section-header {
+    padding: 10px 12px;
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tracker-section-header.phy { background: var(--phy-bg); color: #93c5fd; }
+  .tracker-section-header.chem { background: var(--chem-bg); color: #6ee7b7; }
+  .tracker-section-header.math { background: var(--math-bg); color: #c4b5fd; }
+  .tracker-section-header.overall { background: rgba(245,166,35,0.15); color: var(--gold); }
+
+  .task-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px;
+    border-top: 1px solid var(--border);
+    background: var(--card-bg);
+    transition: background 0.15s;
+  }
+  .task-row:hover { background: rgba(255,255,255,0.02); }
+  .task-check {
+    width: 18px; height: 18px; border-radius: 5px;
+    border: 2px solid var(--border); background: transparent;
+    cursor: pointer; flex-shrink: 0;
+    appearance: none; -webkit-appearance: none;
+    transition: all 0.2s; position: relative;
+  }
+  .task-check:checked {
+    background: var(--success); border-color: var(--success);
+  }
+  .task-check:checked::after {
+    content: '✓';
+    position: absolute; top: -2px; left: 2px;
+    color: white; font-size: 12px; font-weight: 700;
+  }
+  .task-label { flex: 1; font-size: 11px; color: var(--off-white); }
+  .task-label.done { text-decoration: line-through; color: var(--muted); }
+  .task-min {
+    font-size: 9px; font-weight: 600; color: var(--muted);
+    background: rgba(255,255,255,0.08);
+    padding: 2px 5px; border-radius: 4px;
+  }
+
+  .mood-row {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin: 12px 0;
+  }
+  .mood-btn {
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--off-white);
+    transition: all 0.2s;
+  }
+  .mood-btn:hover, .mood-btn.selected { background: rgba(245,166,35,0.15); border-color: var(--gold); }
+  .save-btn {
+    width: 100%;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    color: var(--navy);
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.2s;
+  }
+  .save-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--navy2);
+    border-top: 1px solid var(--border);
+    padding: 14px;
+    text-align: center;
+    margin-top: 16px;
+  }
+  .footer-main { font-size: 12px; font-weight: 700; color: var(--gold); }
+  .footer-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--success); color: white;
+    padding: 10px 20px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+    opacity: 0; transition: opacity 0.3s;
+    z-index: 999; pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ HEADER ════════════════ -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo">AC</div>
+    <div>
+      <div class="academy-name">Anticlock Coaching Academy</div>
+      <div class="academy-sub">KCET 2026 · 27-Day Intensive Preparation Program</div>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-val">24</div><div class="stat-lbl">Days Left</div></div>
+    <div class="stat-box"><div class="stat-val">45+</div><div class="stat-lbl">Target Score</div></div>
+    <div class="stat-box"><div class="stat-val">180</div><div class="stat-lbl">Total MCQs</div></div>
+  </div>
+  <div class="exam-date">Apr 23</div>
+  <div class="day-banner">
+    🎯 DAY 4 — Physics: Ray Optics &amp; Optical Instruments | Chemistry: Coordination Compounds | Maths: 3D Geometry
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('schedule',this)">📅 Schedule</div>
+    <div class="tab" onclick="switchTab('topics',this)">📚 Topics</div>
+    <div class="tab" onclick="switchTab('formulas',this)">🧮 Formulas</div>
+    <div class="tab" onclick="switchTab('mock',this)">✍️ Mock Test</div>
+    <div class="tab" onclick="switchTab('tracker',this)">📊 Tracker</div>
+  </div>
+</div>
+
+<!-- ════════════════ SCHEDULE PANEL ════════════════ -->
+<div id="panel-schedule" class="panel active">
+  <div class="mission-card">
+    <div class="mission-title">📖 Day 4 – Your Study Mission</div>
+    <div class="mission-text">
+      You have <strong>24 days</strong> to go. Today covers 3 HIGH-WEIGHTAGE chapters that together contribute
+      <strong>~11–13 marks</strong> in KCET 2026. Ray Optics is a formula-heavy chapter with many standard numericals —
+      master the mirror and lens equations cold. Coordination Compounds tests IUPAC naming, isomerism and CFT every year.
+      3D Geometry is pure formula application — whoever practices more wins this chapter. Execute today fully.
+    </div>
+  </div>
+
+  <div class="subject-cards">
+    <div class="subj-card phy">
+      <div class="subj-icon">🔭</div>
+      <div class="subj-label">Physics</div>
+      <div class="subj-name">Ray Optics &amp; Optical Instruments</div>
+      <div class="marks-badge">~4–5 marks in KCET</div>
+      <div class="subj-time">4 hrs study</div>
+      <div class="subj-extra">+ 45 min mock + 30 min revision</div>
+    </div>
+    <div class="subj-card chem">
+      <div class="subj-icon">🔗</div>
+      <div class="subj-label">Chemistry</div>
+      <div class="subj-name">Coordination Compounds</div>
+      <div class="marks-badge">~3–4 marks in KCET</div>
+      <div class="subj-time">3 hrs study</div>
+      <div class="subj-extra">+ 30 min mock + 30 min revision</div>
+    </div>
+    <div class="subj-card math">
+      <div class="subj-icon">📐</div>
+      <div class="subj-label">Mathematics</div>
+      <div class="subj-name">3 Dimensional Geometry</div>
+      <div class="marks-badge">~4 marks in KCET</div>
+      <div class="subj-time">2 hrs 30 min</div>
+      <div class="subj-extra">+ 30 min mock + 30 min revision</div>
+    </div>
+  </div>
+
+  <div class="section-title">⏰ Full Day Timetable</div>
+  <div class="timetable">
+    <div class="tt-header"><span>TIME</span><span>ACTIVITY</span><span>SUBJECT</span><span>DURATION</span><span>PRIORITY</span></div>
+
+    <div class="tt-row">
+      <div class="tt-time">6:00–6:20</div>
+      <div><div class="tt-activity">Morning warm-up – read formula sheet aloud</div><div class="tt-sub-text">Print or open Formula tab; revise key formulas out loud</div></div>
+      <div><span class="tt-subject all">ALL 3</span></div><div class="tt-dur">20 min</div><div class="tt-pri high">● High</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-time">6:20–8:50</div>
+      <div><div class="tt-activity">Physics – Ray Optics (Part 1)</div><div class="tt-sub-text">Reflection → mirrors → refraction → Snell's law → TIR → critical angle</div></div>
+      <div><span class="tt-subject phy">PHYSICS</span></div><div class="tt-dur">2 hrs 30 min</div><div class="tt-pri high">● High</div>
+    </div>
+
+    <div class="tt-row break-row">
+      <div class="tt-time">8:50–9:10</div>
+      <div><div class="tt-activity">Break + Breakfast</div><div class="tt-sub-text">Hydrate. No phone scrolling.</div></div>
+      <div><span class="tt-subject brk">BREAK</span></div><div class="tt-dur">20 min</div><div class="tt-pri">—</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-time">9:10–10:40</div>
+      <div><div class="tt-activity">Physics – Ray Optics (Part 2)</div><div class="tt-sub-text">Lens formula → lens maker's eq → prism → microscope → telescope → eye defects</div></div>
+      <div><span class="tt-subject phy">PHYSICS</span></div><div class="tt-dur">1 hr 30 min</div><div class="tt-pri high">● High</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-time">10:40–11:25</div>
+      <div><div class="tt-activity">Physics Mock Test – 30 MCQs (1 min each)</div><div class="tt-sub-text">Use Mock Test tab → Physics section → Strict timer</div></div>
+      <div><span class="tt-subject mock">MOCK</span></div><div class="tt-dur">45 min</div><div class="tt-pri must">● Must Do</div>
+    </div>
+
+    <div class="tt-row break-row">
+      <div class="tt-time">11:25–11:55</div>
+      <div><div class="tt-activity">Lunch Break</div><div class="tt-sub-text">Proper meal. Short walk if possible.</div></div>
+      <div><span class="tt-subject brk">BREAK</span></div><div class="tt-dur">30 min</div><div class="tt-pri">—</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-time">11:55–12:25</div>
+      <div><div class="tt-activity">Physics Revision + Mock Analysis</div><div class="tt-sub-text">Go through wrong answers. Re-read those formulas.</div></div>
+      <div><span class="tt-subject rev">REVISION</span></div><div class="tt-dur">30 min</div><div class="tt-pri high">● High</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-time">12:25–2:25</div>
+      <div><div class="tt-activity">Chemistry – Coordination Compounds (Part 1)</div><div class="tt-sub-text">Werner's theory → ligands → nomenclature → EAN rule → oxidation state</div></div>
+      <div><span class="tt-subject chem">CHEM</span></div><div class="tt-dur">2 hrs</div><div class="tt-pri high">● High</div>
+    </div>
+
+    <div class="tt-row break-row">
+      <div class="tt-time">2:25–2:45</div>
+      <div><div class="tt-activity">Short Break</div><div class="tt-sub-text">Snack + fresh air.</div></div>
+      <div><span class="tt-subject brk">BREAK</span></div><div class="tt-dur">20 min</div><div class="tt-pri">—</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-time">2:45–3:45</div>
+      <div><div class="tt-activity">Chemistry – Coordination Compounds (Part 2)</div><div class="tt-sub-text">Isomerism → VBT → CFT → d-orbital splitting → colour → magnetic properties</div></div>
+      <div><span class="tt-subject chem">CHEM</span></div><div class="tt-dur">1 hr</div><div class="tt-pri high">● High</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-time">3:45–4:15</div>
+      <div><div class="tt-activity">Chemistry Mock Test – 30 MCQs</div><div class="tt-sub-text">Use Mock Test tab → Chemistry section → Strict timer</div></div>
+      <div><span class="tt-subject mock">MOCK</span></div><div class="tt-dur">30 min</div><div class="tt-pri must">● Must Do</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-time">4:15–4:45</div>
+      <div><div class="tt-activity">Chemistry Revision + Mock Analysis</div><div class="tt-sub-text">Focus on IUPAC naming errors and isomerism you got wrong.</div></div>
+      <div><span class="tt-subject rev">REVISION</span></div><div class="tt-dur">30 min</div><div class="tt-pri med">● Medium</div>
+    </div>
+
+    <div class="tt-row break-row">
+      <div class="tt-time">4:45–5:00</div>
+      <div><div class="tt-activity">Short Break</div><div class="tt-sub-text">Walk outside. 15 min.</div></div>
+      <div><span class="tt-subject brk">BREAK</span></div><div class="tt-dur">15 min</div><div class="tt-pri">—</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-time">5:00–7:00</div>
+      <div><div class="tt-activity">Maths – 3 Dimensional Geometry</div><div class="tt-sub-text">DC & DR → line in 3D → angle between lines → plane (all forms) → distance formulas</div></div>
+      <div><span class="tt-subject math">MATHS</span></div><div class="tt-dur">2 hrs</div><div class="tt-pri high">● High</div>
+    </div>
+
+    <div class="tt-row break-row">
+      <div class="tt-time">7:00–7:30</div>
+      <div><div class="tt-activity">Dinner Break</div><div class="tt-sub-text">Proper meal. No study for 30 min.</div></div>
+      <div><span class="tt-subject brk">BREAK</span></div><div class="tt-dur">30 min</div><div class="tt-pri">—</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-time">7:30–8:00</div>
+      <div><div class="tt-activity">Maths Mock Test – 30 MCQs</div><div class="tt-sub-text">Use Mock Test tab → Maths section → Strict timer</div></div>
+      <div><span class="tt-subject mock">MOCK</span></div><div class="tt-dur">30 min</div><div class="tt-pri must">● Must Do</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-time">8:00–8:30</div>
+      <div><div class="tt-activity">Maths Revision + Mock Analysis</div><div class="tt-sub-text">Re-solve wrong questions. Note down mistake patterns.</div></div>
+      <div><span class="tt-subject rev">REVISION</span></div><div class="tt-dur">30 min</div><div class="tt-pri med">● Medium</div>
+    </div>
+
+    <div class="tt-row">
+      <div class="tt-time">8:30–9:00</div>
+      <div><div class="tt-activity">Night Revision – All 3 chapters (Speed run)</div><div class="tt-sub-text">Formula sheet → Top 5 concepts per subject → Fill tracker</div></div>
+      <div><span class="tt-subject all">ALL 3</span></div><div class="tt-dur">30 min</div><div class="tt-pri high">● High</div>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    <div class="sum-box"><div class="sum-icon">📚</div><div class="sum-val">8 hrs 30 min</div><div class="sum-lbl">Total Study</div></div>
+    <div class="sum-box"><div class="sum-icon">✍️</div><div class="sum-val">90 MCQs</div><div class="sum-lbl">Mock Tests</div></div>
+    <div class="sum-box"><div class="sum-icon">🔁</div><div class="sum-val">1 hr 30 min</div><div class="sum-lbl">Revision</div></div>
+    <div class="sum-box"><div class="sum-icon">☕</div><div class="sum-val">1 hr 55 min</div><div class="sum-lbl">Breaks</div></div>
+  </div>
+</div>
+
+<!-- ════════════════ TOPICS PANEL ════════════════ -->
+<div id="panel-topics" class="panel">
+  <div class="topics-grid">
+
+    <!-- PHYSICS -->
+    <div class="topic-section phy">
+      <div class="topic-header phy">
+        🔭 Physics – Ray Optics &amp; Optical Instruments
+        <span class="topic-marks">~4–5 marks</span>
+      </div>
+      <div class="topic-item"><div class="topic-row"><span class="badge must">MUST</span><div><div class="topic-name">Mirror Formula &amp; Magnification</div><div class="topic-desc">1/f = 1/v + 1/u. Sign convention critical. Numericals every year — concave/convex mirrors.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge must">MUST</span><div><div class="topic-name">Refraction &amp; Snell's Law</div><div class="topic-desc">n₁sinθ₁ = n₂sinθ₂. Apparent depth = real depth/n. Lateral shift in glass slab.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge must">MUST</span><div><div class="topic-name">Total Internal Reflection &amp; Critical Angle</div><div class="topic-desc">sinC = 1/n. Applications: optical fibre, mirage, diamond sparkle. Direct MCQ every year.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge must">MUST</span><div><div class="topic-name">Lens Formula &amp; Lens Maker's Equation</div><div class="topic-desc">1/f = 1/v − 1/u. Lens maker's: 1/f = (n−1)[1/R₁−1/R₂]. Power P = 1/f(m). Combination of lenses.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge must">MUST</span><div><div class="topic-name">Prism – Deviation &amp; Minimum Deviation</div><div class="topic-desc">δ = (n−1)A for thin prism. At min deviation: r = A/2. n = sin[(A+δm)/2]/sin(A/2). Frequently asked.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge imp">IMP</span><div><div class="topic-name">Microscope – Magnifying Power</div><div class="topic-desc">Simple microscope: m = 1 + D/f. Compound: m = (L/f_o)×(D/f_e). Final image at infinity vs near point.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge imp">IMP</span><div><div class="topic-name">Telescope – Magnifying Power</div><div class="topic-desc">Astronomical: m = f_o/f_e (normal adjustment). Length = f_o + f_e. Resolving power ∝ D.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge imp">IMP</span><div><div class="topic-name">Refraction at Spherical Surfaces</div><div class="topic-desc">n₂/v − n₁/u = (n₂−n₁)/R. Used to derive lens maker's equation. Direct question possible.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge imp">IMP</span><div><div class="topic-name">Scattering of Light (Rayleigh)</div><div class="topic-desc">Intensity ∝ 1/λ⁴. Sky is blue (shortest λ scattered most). Sun appears red at sunset. Clouds white.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge med">MED</span><div><div class="topic-name">Eye Defects &amp; Corrections</div><div class="topic-desc">Myopia (concave lens), Hypermetropia (convex), Presbyopia, Astigmatism. Focal length calculation.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge med">MED</span><div><div class="topic-name">Dispersion &amp; Spectrum</div><div class="topic-desc">Dispersive power ω = (μv−μr)/(μy−1). Angular dispersion = (μv−μr)A. Achromatic combination.</div></div></div></div>
+    </div>
+
+    <!-- CHEMISTRY -->
+    <div class="topic-section chem">
+      <div class="topic-header chem">
+        🔗 Chemistry – Coordination Compounds
+        <span class="topic-marks">~3–4 marks</span>
+      </div>
+      <div class="topic-item"><div class="topic-row"><span class="badge must">MUST</span><div><div class="topic-name">IUPAC Nomenclature</div><div class="topic-desc">Name ligands (anionic -o, neutral as is), metal with oxidation state, alphabetical ligand order. Direct MCQ every year.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge must">MUST</span><div><div class="topic-name">Isomerism – Geometric (cis/trans)</div><div class="topic-desc">Square planar &amp; octahedral complexes. [MA₂B₂]: cis has both A adjacent. Very commonly asked.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge must">MUST</span><div><div class="topic-name">Crystal Field Theory (CFT)</div><div class="topic-desc">Octahedral: t₂g &amp; eg splitting (Δo). Tetrahedral: Δt = 4/9Δo. Strong field/weak field ligands. CFSE calculation.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge must">MUST</span><div><div class="topic-name">Magnetic Properties (Spin-only formula)</div><div class="topic-desc">μ = √n(n+2) BM, n = unpaired electrons. High spin vs low spin configuration. Diamagnetic vs paramagnetic.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge imp">IMP</span><div><div class="topic-name">Werner's Theory &amp; Basic Concepts</div><div class="topic-desc">Primary vs secondary valence. Coordination number. Ionization sphere vs coordination sphere. EAN rule.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge imp">IMP</span><div><div class="topic-name">Structural Isomerism</div><div class="topic-desc">Ionization isomerism, linkage isomerism (ambidentate ligands like NO₂⁻/ONO⁻), coordination isomerism, solvate isomerism.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge imp">IMP</span><div><div class="topic-name">Colour of Coordination Compounds</div><div class="topic-desc">d-d transitions absorb certain λ, complementary colour observed. [Ti(H₂O)₆]³⁺ is purple. Spectrochemical series.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge imp">IMP</span><div><div class="topic-name">Valence Bond Theory (VBT)</div><div class="topic-desc">sp³, dsp², d²sp³, sp³d² hybridization. Inner vs outer orbital complex. [Ni(CN)₄]²⁻ (dsp², square planar) vs [NiCl₄]²⁻ (sp³, tetrahedral).</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge med">MED</span><div><div class="topic-name">Stability of Complexes</div><div class="topic-desc">Chelate effect, stability constant (Kf). Higher Kf = more stable. EDTA forms very stable complexes.</div></div></div></div>
+      <div class="topic-item"><div class="topic-row"><span class="badge med">MED</span><div><div class="topic-name">Applications of Coordination Compounds</div><div class="topic-desc">Cisplatin (cancer drug), chlorophyll (Mg), haemoglobin (Fe), vitamin B₁₂ (Co), EDTA in hardness removal.</div></div></div></div>
+    </div>
+
+    <!-- MATHS full width -->
+    <div class="topic-section math full-width">
+      <div class="topic-header math">
+        📐 Mathematics – 3 Dimensional Geometry
+        <span class="topic-marks">~4 marks</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr">
+        <div>
+          <div class="topic-item"><div class="topic-row"><span class="badge must">MUST</span><div><div class="topic-name">Direction Cosines &amp; Direction Ratios</div><div class="topic-desc">l²+m²+n²=1. DC of line joining (x₁,y₁,z₁) and (x₂,y₂,z₂). Converting DR to DC. Condition for perpendicular lines: a₁a₂+b₁b₂+c₁c₂=0.</div></div></div></div>
+          <div class="topic-item"><div class="topic-row"><span class="badge must">MUST</span><div><div class="topic-name">Equation of Line in 3D</div><div class="topic-desc">Vector: r⃗ = a⃗ + λb⃗. Cartesian: (x−x₁)/a = (y−y₁)/b = (z−z₁)/c. Angle between two lines: cosθ = |a₁a₂+b₁b₂+c₁c₂|/(|b₁||b₂|).</div></div></div></div>
+          <div class="topic-item"><div class="topic-row"><span class="badge must">MUST</span><div><div class="topic-name">Equation of Plane</div><div class="topic-desc">Normal form: ax+by+cz=d. Through 3 points (determinant form). Intercept form: x/a+y/b+z/c=1. Angle between planes: cosθ = |a₁a₂+b₁b₂+c₁c₂|/(|n₁||n₂|).</div></div></div></div>
+          <div class="topic-item"><div class="topic-row"><span class="badge must">MUST</span><div><div class="topic-name">Distance of Point from Plane</div><div class="topic-desc">d = |ax₁+by₁+cz₁+d|/√(a²+b²+c²). Distance between parallel planes. Foot of perpendicular from point to plane.</div></div></div></div>
+        </div>
+        <div>
+          <div class="topic-item"><div class="topic-row"><span class="badge imp">IMP</span><div><div class="topic-name">Shortest Distance Between Skew Lines</div><div class="topic-desc">SD = |(a₂−a₁)·(b₁×b₂)|/|b₁×b₂|. If SD = 0, lines are coplanar. Skew lines are neither parallel nor intersecting.</div></div></div></div>
+          <div class="topic-item"><div class="topic-row"><span class="badge imp">IMP</span><div><div class="topic-name">Angle Between Line and Plane</div><div class="topic-desc">sinθ = |al+bm+cn|/√(a²+b²+c²). Line perpendicular to plane: direction ratios of line ∝ normal to plane. Line in plane: a·l+b·m+c·n = 0.</div></div></div></div>
+          <div class="topic-item"><div class="topic-row"><span class="badge imp">IMP</span><div><div class="topic-name">Coplanarity of Lines</div><div class="topic-desc">Two lines are coplanar if (a₂−a₁)·(b₁×b₂) = 0. Used to check if lines intersect. Write as determinant condition.</div></div></div></div>
+          <div class="topic-item"><div class="topic-row"><span class="badge med">MED</span><div><div class="topic-name">Section Formula &amp; Midpoint in 3D</div><div class="topic-desc">Point dividing P₁P₂ in ratio m:n: ((mx₂+nx₁)/(m+n), ...). Midpoint: average of coordinates. Centroid of triangle in 3D.</div></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cheat Codes -->
+  <div class="cheat-box">
+    <div class="cheat-title">⚡ KCET Cheat Codes &amp; Exam Strategy — Day 4</div>
+    <div class="cheat-grid">
+      <div>
+        <div class="cheat-col-title phy">⚡ Physics Tricks</div>
+        <div class="cheat-item"><strong>Mirror sign convention:</strong> All distances measured from pole. Distances in direction of incident ray = positive (+ve).</div>
+        <div class="cheat-item"><strong>TIR trick:</strong> Critical angle is for denser to rarer medium. sinC = n_rare/n_dense.</div>
+        <div class="cheat-item"><strong>Lens power:</strong> P = 1/f. Convex lens P > 0, concave P < 0. For combination: P = P₁ + P₂.</div>
+        <div class="cheat-item"><strong>Prism at min deviation:</strong> Ray passes symmetrically. r₁ = r₂ = A/2. Always verify with this condition.</div>
+        <div class="cheat-item"><strong>Telescope vs microscope:</strong> Telescope → large fₒ, small fₑ. Microscope → small fₒ, large fₑ (or choose same).</div>
+      </div>
+      <div>
+        <div class="cheat-col-title chem">🔗 Chemistry Tricks</div>
+        <div class="cheat-item"><strong>IUPAC order:</strong> Ligands alphabetically, then metal. Anionic complex gets -ate suffix (ferrate, cuprate, argentate).</div>
+        <div class="cheat-item"><strong>Spectrochemical series:</strong> I⁻ < Br⁻ < S²⁻ < Cl⁻ < NO₂⁻ < F⁻ < OH⁻ < H₂O < NH₃ < en < CN⁻ < CO (weak → strong field).</div>
+        <div class="cheat-item"><strong>High spin = weak field</strong> (large number of unpaired e⁻, paramagnetic). Low spin = strong field (fewer unpaired, may be diamagnetic).</div>
+        <div class="cheat-item"><strong>Magnetic moment quick check:</strong> Fe³⁺ (d⁵, 5 unpaired): μ = √35 ≈ 5.92 BM. Cu²⁺ (d⁹, 1 unpaired): μ = √3 ≈ 1.73 BM.</div>
+      </div>
+      <div>
+        <div class="cheat-col-title math">📐 Maths Tricks</div>
+        <div class="cheat-item"><strong>DC check:</strong> Always verify l²+m²+n²=1. If given DR, divide each by √(a²+b²+c²) to get DC.</div>
+        <div class="cheat-item"><strong>Plane through 3 points:</strong> Use determinant |x−x₁, y−y₁, z−z₁; x₂−x₁, ...; x₃−x₁, ...| = 0.</div>
+        <div class="cheat-item"><strong>Skew lines:</strong> Neither parallel (b₁ not ∥ b₂) nor intersecting. SD formula uses cross product of direction vectors.</div>
+        <div class="cheat-item"><strong>Foot of perpendicular:</strong> Write parametric point on line, substitute in perpendicular condition, solve for λ.</div>
+        <div class="cheat-item"><strong>Line ⊥ plane:</strong> Direction ratios of line = coefficients (a,b,c) of plane. Line ∥ plane: a·l+b·m+c·n = 0.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ FORMULAS PANEL ════════════════ -->
+<div id="panel-formulas" class="panel">
+
+  <!-- PHYSICS FORMULAS -->
+  <div class="formula-section phy">
+    <div class="formula-header phy">⚡ Ray Optics &amp; Optical Instruments – Physics</div>
+    <div class="formula-grid">
+      <div class="formula-card"><div class="f-label phy">Mirror Formula</div><div class="f-formula">1/f = 1/v + 1/u</div><div class="f-note">f = R/2 for spherical mirror. Use sign convention carefully.</div></div>
+      <div class="formula-card"><div class="f-label phy">Mirror Magnification</div><div class="f-formula">m = −v/u = h'/h</div><div class="f-note">m > 0 → virtual & erect. m < 0 → real & inverted.</div></div>
+      <div class="formula-card"><div class="f-label phy">Snell's Law</div><div class="f-formula">n₁ sin θ₁ = n₂ sin θ₂</div><div class="f-note">Also: n = c/v = λ_air/λ_medium. Frequency unchanged.</div></div>
+      <div class="formula-card"><div class="f-label phy">Critical Angle</div><div class="f-formula">sin C = n₂/n₁ = 1/n</div><div class="f-note">TIR occurs when θ > C (denser to rarer medium only).</div></div>
+      <div class="formula-card"><div class="f-label phy">Apparent Depth</div><div class="f-formula">d_app = d_real / n</div><div class="f-note">Object in denser medium, observer in rarer. Normal incidence.</div></div>
+      <div class="formula-card"><div class="f-label phy">Lens Formula</div><div class="f-formula">1/f = 1/v − 1/u</div><div class="f-note">m = v/u. P = 1/f(m). Thin lens formula.</div></div>
+      <div class="formula-card"><div class="f-label phy">Lens Maker's Equation</div><div class="f-formula">1/f = (n−1)[1/R₁ − 1/R₂]</div><div class="f-note">n = refractive index of lens. R₁, R₂ with sign convention.</div></div>
+      <div class="formula-card"><div class="f-label phy">Combination of Lenses</div><div class="f-formula">1/f = 1/f₁ + 1/f₂ | P = P₁+P₂</div><div class="f-note">For lenses in contact. If separated by d: 1/f=1/f₁+1/f₂−d/f₁f₂.</div></div>
+      <div class="formula-card"><div class="f-label phy">Prism – Min Deviation</div><div class="f-formula">n = sin[(A+δₘ)/2] / sin(A/2)</div><div class="f-note">Thin prism: δ = (n−1)A. r₁=r₂=A/2 at minimum deviation.</div></div>
+      <div class="formula-card"><div class="f-label phy">Refraction at Sph. Surface</div><div class="f-formula">n₂/v − n₁/u = (n₂−n₁)/R</div><div class="f-note">Basis for lens maker's equation. Use sign convention.</div></div>
+      <div class="formula-card"><div class="f-label phy">Simple Microscope</div><div class="f-formula">m = 1 + D/f (near point) | m = D/f (infinity)</div><div class="f-note">D = 25 cm (least distance of distinct vision).</div></div>
+      <div class="formula-card"><div class="f-label phy">Compound Microscope</div><div class="f-formula">M = (L/f_o) × (D/f_e)</div><div class="f-note">L = length of tube. f_o < f_e for good magnification.</div></div>
+      <div class="formula-card"><div class="f-label phy">Astronomical Telescope</div><div class="f-formula">M = f_o / f_e | L = f_o + f_e</div><div class="f-note">Normal adjustment (image at infinity). Large f_o, small f_e.</div></div>
+      <div class="formula-card"><div class="f-label phy">Rayleigh Scattering</div><div class="f-formula">I ∝ 1/λ⁴</div><div class="f-note">Blue light scattered most → blue sky. Red least → used in signals.</div></div>
+    </div>
+  </div>
+
+  <!-- CHEMISTRY FORMULAS -->
+  <div class="formula-section chem">
+    <div class="formula-header chem">🔗 Coordination Compounds – Chemistry</div>
+    <div class="formula-grid">
+      <div class="formula-card"><div class="f-label chem">Spin-Only Magnetic Moment</div><div class="f-formula">μ = √[n(n+2)] BM</div><div class="f-note">n = number of unpaired electrons. 1 unpaired: 1.73 BM. 5 unpaired: 5.92 BM.</div></div>
+      <div class="formula-card"><div class="f-label chem">EAN Rule (18-electron)</div><div class="f-formula">EAN = Z − oxidation state + (2 × CN)</div><div class="f-note">Effective Atomic Number = noble gas configuration for stability.</div></div>
+      <div class="formula-card"><div class="f-label chem">CFSE – Octahedral (Strong Field)</div><div class="f-formula">CFSE = −0.4×(electrons in t₂g)Δo + 0.6×(eg electrons)Δo</div><div class="f-note">t₂g set lower by 0.4Δo; eg set higher by 0.6Δo.</div></div>
+      <div class="formula-card"><div class="f-label chem">Tetrahedral vs Octahedral Δ</div><div class="f-formula">Δt = (4/9) × Δo</div><div class="f-note">Tetrahedral splitting is always smaller → usually high spin. No SFL effect in tetrahedral.</div></div>
+      <div class="formula-card"><div class="f-label chem">Spectrochemical Series (key)</div><div class="f-formula">I⁻ &lt; Br⁻ &lt; Cl⁻ &lt; F⁻ &lt; OH⁻ &lt; H₂O &lt; NH₃ &lt; en &lt; CN⁻ &lt; CO</div><div class="f-note">Weak field → high spin (more unpaired e⁻). Strong field → low spin.</div></div>
+      <div class="formula-card"><div class="f-label chem">IUPAC Naming Rule</div><div class="f-formula">ligands (alphabetical) + metal[OS] | anionic complex = -ate</div><div class="f-note">Neutral ligands: aqua, ammine, carbonyl, nitrosyl. Anionic: chlorido, cyanido, hydroxido.</div></div>
+      <div class="formula-card"><div class="f-label chem">Oxidation State Calculation</div><div class="f-formula">OS of metal + sum of ligand charges = overall charge</div><div class="f-note">For [Fe(CN)₆]⁴⁻: OS(Fe) + 6(−1) = −4 → OS(Fe) = +2.</div></div>
+      <div class="formula-card"><div class="f-label chem">Stability Constant (Kf)</div><div class="f-formula">Kf = [MLn] / [M][L]ⁿ</div><div class="f-note">Higher Kf = more stable complex. Chelation increases Kf significantly (chelate effect).</div></div>
+    </div>
+  </div>
+
+  <!-- MATHS FORMULAS -->
+  <div class="formula-section math">
+    <div class="formula-header math">📐 3 Dimensional Geometry – Mathematics</div>
+    <div class="formula-grid">
+      <div class="formula-card"><div class="f-label math">Direction Cosines</div><div class="f-formula">l = a/√(a²+b²+c²), m = b/..., n = c/...</div><div class="f-note">l² + m² + n² = 1 always. Direction ratios (a,b,c) proportional to DCs.</div></div>
+      <div class="formula-card"><div class="f-label math">Angle Between Two Lines</div><div class="f-formula">cosθ = |a₁a₂+b₁b₂+c₁c₂| / (|b⃗₁||b⃗₂|)</div><div class="f-note">Perpendicular: a₁a₂+b₁b₂+c₁c₂ = 0. Parallel: a₁/a₂ = b₁/b₂ = c₁/c₂.</div></div>
+      <div class="formula-card"><div class="f-label math">Line – Vector Form</div><div class="f-formula">r⃗ = a⃗ + λb⃗</div><div class="f-note">a⃗ = position vector of point on line. b⃗ = direction vector. λ ∈ ℝ.</div></div>
+      <div class="formula-card"><div class="f-label math">Line – Cartesian Form</div><div class="f-formula">(x−x₁)/a = (y−y₁)/b = (z−z₁)/c</div><div class="f-note">Parametric: x = x₁+aλ, y = y₁+bλ, z = z₁+cλ.</div></div>
+      <div class="formula-card"><div class="f-label math">Shortest Distance (Skew Lines)</div><div class="f-formula">SD = |(a⃗₂−a⃗₁)·(b⃗₁×b⃗₂)| / |b⃗₁×b⃗₂|</div><div class="f-note">If SD = 0, lines are coplanar (may intersect or be parallel).</div></div>
+      <div class="formula-card"><div class="f-label math">Coplanarity of Two Lines</div><div class="f-formula">(a⃗₂−a⃗₁)·(b⃗₁×b⃗₂) = 0</div><div class="f-note">If satisfied AND b⃗₁ ≠ kb⃗₂, lines are intersecting. Write as 3×3 determinant.</div></div>
+      <div class="formula-card"><div class="f-label math">Equation of Plane (Normal Form)</div><div class="f-formula">ax + by + cz + d = 0 | r⃗·n⃗ = p</div><div class="f-note">(a,b,c) = normal to plane. Distance from origin = |d|/√(a²+b²+c²).</div></div>
+      <div class="formula-card"><div class="f-label math">Distance – Point to Plane</div><div class="f-formula">d = |ax₁+by₁+cz₁+d| / √(a²+b²+c²)</div><div class="f-note">Most frequently used formula in 3D geometry questions in KCET.</div></div>
+      <div class="formula-card"><div class="f-label math">Angle Between Two Planes</div><div class="f-formula">cosθ = |a₁a₂+b₁b₂+c₁c₂| / (|n⃗₁||n⃗₂|)</div><div class="f-note">Perpendicular planes: a₁a₂+b₁b₂+c₁c₂ = 0. Parallel: ratios equal.</div></div>
+      <div class="formula-card"><div class="f-label math">Angle – Line &amp; Plane</div><div class="f-formula">sinθ = |a·l + b·m + c·n| / (√(a²+b²+c²)·1)</div><div class="f-note">θ is angle with plane (complement of angle with normal). 0 ≤ θ ≤ π/2.</div></div>
+      <div class="formula-card"><div class="f-label math">Intercept Form of Plane</div><div class="f-formula">x/a + y/b + z/c = 1</div><div class="f-note">Plane makes intercepts a, b, c on x, y, z axes respectively.</div></div>
+      <div class="formula-card"><div class="f-label math">Section Formula in 3D</div><div class="f-formula">P = (mx₂+nx₁)/(m+n), (my₂+ny₁)/(m+n), (mz₂+nz₁)/(m+n)</div><div class="f-note">Internal division. Midpoint: m = n = 1. External: use negative n.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ MOCK TEST PANEL ════════════════ -->
+<div id="panel-mock" class="panel">
+  <div class="mock-header">
+    <div class="mock-info">
+      <div class="mock-title">Live Mock Test – Day 4</div>
+      <div class="mock-desc">30 MCQs per subject. Each question must be answered within <strong>1 minute</strong>. PYQ questions are tagged — treat them as gold.</div>
+    </div>
+    <div class="mock-count">
+      <div class="mock-num">90</div>
+      <div class="mock-lbl">Total MCQs Today</div>
+    </div>
+  </div>
+
+  <div class="subject-selector">
+    <div class="sel-btn selected phy" id="sel-phy" onclick="selectSubject('phy')">
+      <div class="sel-icon">🔭</div>
+      <div class="sel-name">Physics</div>
+      <div class="sel-count">30 questions</div>
+    </div>
+    <div class="sel-btn chem" id="sel-chem" onclick="selectSubject('chem')">
+      <div class="sel-icon">🔗</div>
+      <div class="sel-name">Chemistry</div>
+      <div class="sel-count">30 questions</div>
+    </div>
+    <div class="sel-btn math" id="sel-math" onclick="selectSubject('math')">
+      <div class="sel-icon">📐</div>
+      <div class="sel-name">Maths</div>
+      <div class="sel-count">30 questions</div>
+    </div>
+  </div>
+
+  <div id="mock-area"></div>
+</div>
+
+<!-- ════════════════ TRACKER PANEL ════════════════ -->
+<div id="panel-tracker" class="panel">
+  <div style="background:linear-gradient(135deg,#0d3b1a,#0a2e14);border:1px solid #1a6b2a;border-radius:10px;padding:12px;margin-bottom:14px;">
+    <div style="font-size:14px;font-weight:700;color:#f5a623;margin-bottom:4px;">📊 Day 4 Progress Tracker</div>
+    <div style="font-size:11px;color:#8899bb;">Track every task you complete today. Mark items as done. Save your progress.</div>
+  </div>
+
+  <div class="tracker-stats">
+    <div class="t-stat"><div class="t-stat-val" id="t-done">0</div><div class="t-stat-lbl">Tasks Done</div></div>
+    <div class="t-stat"><div class="t-stat-val" id="t-total">0</div><div class="t-stat-lbl">Total Tasks</div></div>
+    <div class="t-stat"><div class="t-stat-val" id="t-pct">0%</div><div class="t-stat-lbl">Progress</div></div>
+    <div class="t-stat"><div class="t-stat-val" id="t-hrs">0h</div><div class="t-stat-lbl">Hours Logged</div></div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="main-progress"></div></div>
+  <div class="pct-label" id="pct-label">0% complete</div>
+
+  <!-- Physics -->
+  <div class="tracker-section">
+    <div class="tracker-section-header phy">⚡ Physics – Ray Optics &amp; Optical Instruments<span style="margin-left:auto;font-size:9px;" id="phy-pct">0% complete</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="30" onchange="updateTracker()"><label class="task-label">Mirror formula + magnification – 8 numericals (30 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="25" onchange="updateTracker()"><label class="task-label">Snell's law + TIR + critical angle derivation (25 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="30" onchange="updateTracker()"><label class="task-label">Lens formula + lens maker's equation + 8 numericals (30 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="20" onchange="updateTracker()"><label class="task-label">Prism – minimum deviation derivation + formula (20 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="25" onchange="updateTracker()"><label class="task-label">Microscope + telescope magnifying power (25 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="20" onchange="updateTracker()"><label class="task-label">Scattering + eye defects + dispersion (20 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="45" onchange="updateTracker()"><label class="task-label">Physics Mock Test – 30 MCQs completed</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="30" onchange="updateTracker()"><label class="task-label">Physics Mock Analysis – reviewed all wrong answers</label><span class="task-min">m1n</span></div>
+  </div>
+
+  <!-- Chemistry -->
+  <div class="tracker-section">
+    <div class="tracker-section-header chem">🔗 Chemistry – Coordination Compounds<span style="margin-left:auto;font-size:9px;" id="chem-pct">0% complete</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="25" onchange="updateTracker()"><label class="task-label">Werner's theory + ligands + basic concepts (25 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="30" onchange="updateTracker()"><label class="task-label">IUPAC nomenclature – 10 practice names (30 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="25" onchange="updateTracker()"><label class="task-label">Isomerism – all types with examples (25 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="25" onchange="updateTracker()"><label class="task-label">VBT – hybridization + geometry of complexes (25 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="30" onchange="updateTracker()"><label class="task-label">CFT – octahedral splitting + CFSE calculation (30 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="15" onchange="updateTracker()"><label class="task-label">Magnetic properties + colour of complexes (15 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="30" onchange="updateTracker()"><label class="task-label">Chemistry Mock Test – 30 MCQs completed</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="30" onchange="updateTracker()"><label class="task-label">Chemistry Mock Analysis – reviewed all wrong answers</label><span class="task-min">m1n</span></div>
+  </div>
+
+  <!-- Maths -->
+  <div class="tracker-section">
+    <div class="tracker-section-header math">📐 Maths – 3 Dimensional Geometry<span style="margin-left:auto;font-size:9px;" id="math-pct">0% complete</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="20" onchange="updateTracker()"><label class="task-label">Direction cosines &amp; ratios – 5 problems (20 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="25" onchange="updateTracker()"><label class="task-label">Equation of line in 3D – vector &amp; cartesian (25 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="25" onchange="updateTracker()"><label class="task-label">Shortest distance between skew lines – 5 problems (25 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="30" onchange="updateTracker()"><label class="task-label">Equation of plane – all forms + 8 numericals (30 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="20" onchange="updateTracker()"><label class="task-label">Distance of point from plane + angle between line &amp; plane (20 min)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="30" onchange="updateTracker()"><label class="task-label">Maths Mock Test – 30 MCQs completed</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="30" onchange="updateTracker()"><label class="task-label">Maths Mock Analysis – reviewed all wrong answers</label><span class="task-min">m1n</span></div>
+  </div>
+
+  <!-- Overall Commitments -->
+  <div class="tracker-section">
+    <div class="tracker-section-header overall">⭐ Overall Day 4 Commitments<span style="margin-left:auto;font-size:9px;" id="overall-pct">0% overall</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="5" onchange="updateTracker()"><label class="task-label">Morning formula warm-up done (6:00 AM)</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="0" onchange="updateTracker()"><label class="task-label">All 3 chapter studies completed</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="0" onchange="updateTracker()"><label class="task-label">All 3 mock tests (90 MCQs total) attempted</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="0" onchange="updateTracker()"><label class="task-label">All wrong answers reviewed and understood</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="0" onchange="updateTracker()"><label class="task-label">Night revision formula run-through done</label><span class="task-min">m1n</span></div>
+    <div class="task-row"><input type="checkbox" class="task-check" data-min="0" onchange="updateTracker()"><label class="task-label">Tracker filled and saved before sleep</label><span class="task-min">m1n</span></div>
+  </div>
+
+  <div style="font-size:13px;font-weight:700;color:var(--off-white);margin:14px 0 8px;">How did today go?</div>
+  <div class="mood-row">
+    <button class="mood-btn" onclick="selectMood(this)">😊 Great day!</button>
+    <button class="mood-btn" onclick="selectMood(this)">😐 Okay, could be better</button>
+    <button class="mood-btn" onclick="selectMood(this)">😓 Struggled today</button>
+    <button class="mood-btn" onclick="selectMood(this)">🔥 On fire – did extra!</button>
+    <button class="mood-btn" onclick="selectMood(this)">😵 Distracted, need to refocus</button>
+  </div>
+  <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">Note down: What did you struggle with today? What clicked well? Any doubts to clear tomorrow?</div>
+  <textarea id="day-notes" style="width:100%;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:10px;color:var(--off-white);font-size:12px;resize:vertical;min-height:70px;" placeholder="Be honest — this is for your own growth."></textarea>
+  <button class="save-btn" onclick="saveProgress()">💾 Save Today's Progress</button>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <div class="footer-main">Anticlock Coaching Academy</div>
+  <div class="footer-sub">KCET 2026 – 27 Day Intensive Plan · Day 4 of 27 · Founded by Nikhilesh · Karnataka Engineering Admissions Expert · 1500+ Students Guided</div>
+</div>
+
+<div class="toast" id="toast">✅ Progress Saved!</div>
+
+<!-- ════════════════ JAVASCRIPT ════════════════ -->
+<script>
+// ── Tabs ──────────────────────────────────────────────────────────────────
+function switchTab(name, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  el.classList.add('active');
+  if (name === 'mock') buildMockQuestion();
+}
+
+// ── Mock Test ─────────────────────────────────────────────────────────────
+const questions = {
+  phy: [
+    { pyq:'KCET 2023', q:'A concave mirror has focal length 20 cm. An object is placed 60 cm in front of the mirror. The image is formed at', opts:['20 cm behind mirror','30 cm in front of mirror','60 cm in front of mirror','30 cm behind mirror'], ans:1 },
+    { pyq:'KCET 2022', q:'The critical angle for total internal reflection from glass (n=1.5) to air is approximately', opts:['30°','41.8°','48.6°','60°'], ans:1 },
+    { pyq:'KCET 2021', q:'A biconvex lens has equal radii of curvature of 20 cm and refractive index 1.5. Its focal length is', opts:['10 cm','20 cm','40 cm','5 cm'], ans:1 },
+    { pyq:'KCET 2020', q:'The magnifying power of a simple microscope with focal length 5 cm at near point (D=25 cm) is', opts:['4','5','6','7'], ans:2 },
+    { pyq:'KCET 2019', q:'In a prism, the angle of minimum deviation is 40° and angle of prism is 60°. The refractive index of the prism is', opts:['√3','√2','1.5','2'], ans:0 },
+    { pyq:'KCET 2018', q:'A ray of light undergoes total internal reflection at a glass-air interface. If the angle of incidence is 45°, the minimum refractive index of glass is', opts:['1.2','√2','1.5','2'], ans:1 },
+    { pyq:'KCET 2024', q:'Two thin lenses of power +4D and −2D are placed in contact. The focal length of the combination is', opts:['50 cm','100 cm','25 cm','200 cm'], ans:0 },
+    { pyq:'KCET 2023', q:'Rayleigh scattering of light is proportional to', opts:['λ','λ²','1/λ²','1/λ⁴'], ans:3 },
+    { pyq:'KCET 2022', q:'An astronomical telescope has objective focal length 100 cm and eyepiece focal length 5 cm. Its magnifying power in normal adjustment is', opts:['20','25','95','105'], ans:0 },
+    { pyq:'KCET 2021', q:'Apparent depth of an object in water (n=4/3) at real depth 12 cm is', opts:['16 cm','9 cm','8 cm','12 cm'], ans:1 },
+  ],
+  chem: [
+    { pyq:'KCET 2023', q:'The IUPAC name of [Cr(NH₃)₄Cl₂]Cl is', opts:['Tetraaminedichloridochromium(III) chloride','Tetraamminedichloridochromium(III) chloride','Dichloridotetraaminechromium(III) chloride','Chromium tetraammine dichloride chloride'], ans:1 },
+    { pyq:'KCET 2022', q:'The number of unpaired electrons in [Fe(CN)₆]⁴⁻ (strong field) is', opts:['4','2','0','6'], ans:2 },
+    { pyq:'KCET 2021', q:'The hybridization of Ni in [Ni(CN)₄]²⁻ is', opts:['sp³','dsp²','d²sp³','sp³d'], ans:1 },
+    { pyq:'KCET 2020', q:'Which of the following shows geometrical isomerism?', opts:['[Co(en)₃]³⁺','[Pt(NH₃)₂Cl₂]','[Co(NH₃)₆]³⁺','[Ni(CO)₄]'], ans:1 },
+    { pyq:'KCET 2024', q:'The crystal field splitting in tetrahedral complexes (Δt) compared to octahedral (Δo) is', opts:['Δt = Δo','Δt = (4/9)Δo','Δt = (9/4)Δo','Δt = 2Δo'], ans:1 },
+    { pyq:'KCET 2019', q:'Linkage isomerism is shown by the ligand', opts:['en','NH₃','NO₂⁻','Cl⁻'], ans:2 },
+    { pyq:'KCET 2023', q:'The coordination number of Fe in [Fe(C₂O₄)₃]³⁻ is', opts:['3','6','4','8'], ans:1 },
+    { pyq:'KCET 2018', q:'Cisplatin, the anticancer drug, has the formula', opts:['[Pt(NH₃)₂Cl₂] (cis)','[Pt(en)Cl₂]','[Pt(NH₃)₄]Cl₂','[PtCl₄]²⁻'], ans:0 },
+    { pyq:'KCET 2022', q:'Spin-only magnetic moment of Mn²⁺ ion (d⁵, high spin) in BM is', opts:['1.73','3.87','4.90','5.92'], ans:3 },
+    { pyq:'KCET 2021', q:'Which complex is diamagnetic?', opts:['[NiCl₄]²⁻','[Ni(CN)₄]²⁻','[FeF₆]³⁻','[CoF₆]³⁻'], ans:1 },
+  ],
+  math: [
+    { pyq:'KCET 2023', q:'The direction cosines of a line making equal angles with all three coordinate axes are', opts:['(1,1,1)','(1/√3, 1/√3, 1/√3)','(1/√2, 1/√2, 0)','(1/2, 1/2, 1/2)'], ans:1 },
+    { pyq:'KCET 2022', q:'The distance of the point (1, 2, 3) from the plane 2x − y + 2z + 3 = 0 is', opts:['10/3','7/3','8/3','11/3'], ans:0 },
+    { pyq:'KCET 2021', q:'The angle between lines with direction ratios (1,2,2) and (2,1,−2) is', opts:['90°','60°','45°','30°'], ans:0 },
+    { pyq:'KCET 2020', q:'The shortest distance between lines r⃗ = î+λ(2î−ĵ+k̂) and r⃗ = 2î−ĵ+μ(3î−5ĵ+2k̂) is', opts:['3/√59','5/√59','6/√59','0'], ans:0 },
+    { pyq:'KCET 2024', q:'The equation of the plane passing through (1,0,0), (0,1,0) and (0,0,1) is', opts:['x+y+z=0','x+y+z=1','x+y+z=2','x+y+z=3'], ans:1 },
+    { pyq:'KCET 2019', q:'If a line makes angles 90°, 60°, 30° with x, y, z axes respectively, the direction cosines are', opts:['(0, 1/2, √3/2)','(0, √3/2, 1/2)','(1, 1/2, √3/2)','(0, −1/2, −√3/2)'], ans:0 },
+    { pyq:'KCET 2023', q:'The foot of perpendicular from (1,2,3) to the plane 2x − y + 2z = 3 lies at', opts:['(−1/3, 7/3, 5/3)','(1/3, 5/3, 7/3)','(5/3, 1/3, 7/3)','(7/3, −1/3, 5/3)'], ans:0 },
+    { pyq:'KCET 2022', q:'Two lines are coplanar if (a₂−a₁)·(b₁×b₂) equals', opts:['1','−1','Any non-zero value','0'], ans:3 },
+    { pyq:'KCET 2024', q:'The distance between the parallel planes 2x+3y−z+4=0 and 4x+6y−2z+10=0 is', opts:['1/√14','2/√14','3/√14','√14'], ans:0 },
+    { pyq:'KCET 2021', q:'A line with direction ratios (2, 7, −3) is perpendicular to the plane ax+4y+3z=0. The value of a is', opts:['2','4','6','8'], ans:0 },
+  ]
+};
+
+let currentSubject = 'phy';
+let currentQIndex = 0;
+let scores = { phy: 0, chem: 0, math: 0 };
+let answered = false;
+
+function selectSubject(sub) {
+  currentSubject = sub;
+  currentQIndex = 0;
+  answered = false;
+  document.querySelectorAll('.sel-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('sel-' + sub).classList.add('selected');
+  buildMockQuestion();
+}
+
+function buildMockQuestion() {
+  const qs = questions[currentSubject];
+  const q = qs[currentQIndex % qs.length];
+  answered = false;
+  const subName = { phy:'⚡ Physics – Ray Optics', chem:'🔗 Chemistry – Coordination Compounds', math:'📐 Maths – 3D Geometry' }[currentSubject];
+
+  document.getElementById('mock-area').innerHTML = `
+    <div class="question-card">
+      <div class="q-meta">
+        <span class="pyq-badge">PYQ – ${q.pyq}</span>
+        <span class="q-num">QUESTION ${currentQIndex % qs.length + 1} OF ${qs.length}</span>
+        <span class="q-score">Score: ${scores[currentSubject]}/${currentQIndex}</span>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">${subName}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((o,i) => `<button class="opt-btn" onclick="checkAnswer(${i},${q.ans})" id="opt-${i}">${['A','B','C','D'][i]}. ${o}</button>`).join('')}
+      </div>
+      <div class="q-actions">
+        <span class="score-display">Score: ${scores[currentSubject]}/10</span>
+        <div class="btn-group">
+          <button class="skip-btn" onclick="nextQ()">Skip</button>
+          <button class="next-btn" onclick="nextQ()">Next →</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function checkAnswer(chosen, correct) {
+  if (answered) return;
+  answered = true;
+  document.querySelectorAll('.opt-btn').forEach((b, i) => {
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  if (chosen === correct) scores[currentSubject]++;
+}
+
+function nextQ() {
+  currentQIndex++;
+  answered = false;
+  buildMockQuestion();
+}
+
+// ── Tracker ───────────────────────────────────────────────────────────────
+function updateTracker() {
+  const allChecks = document.querySelectorAll('.task-check');
+  const done = [...allChecks].filter(c => c.checked).length;
+  const total = allChecks.length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  const mins = [...allChecks].filter(c => c.checked).reduce((s,c)=> s + parseInt(c.dataset.min||0), 0);
+  document.getElementById('t-done').textContent = done;
+  document.getElementById('t-total').textContent = total;
+  document.getElementById('t-pct').textContent = pct + '%';
+  document.getElementById('t-hrs').textContent = (mins/60).toFixed(1) + 'h';
+  document.getElementById('main-progress').style.width = pct + '%';
+  document.getElementById('pct-label').textContent = pct + '% complete';
+}
+
+function selectMood(el) {
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function saveProgress() {
+  updateTracker();
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// Init
+updateTracker();
+buildMockQuestion();
+</script>
+</body>
+</html>
